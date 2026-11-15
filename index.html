@@ -5,218 +5,237 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mauritian Coins Adventure</title>
 <style>
+:root{--purple:#7954b8;--purple-light:#f2ebff;--blue:#eaf7ff;--green:#dff7e8;--gold:#ffcf73;--ink:#171717}
 *{box-sizing:border-box}
-body{margin:0;padding:18px;background:linear-gradient(135deg,#e8f5ff,#fff2f7);font-family:"Comic Sans MS",Arial,sans-serif;color:#222}
-.game{max-width:900px;margin:auto;background:#fff;padding:24px;border-radius:22px;box-shadow:0 6px 24px #00000018}
-h1{text-align:center;color:#b45b91;margin:4px 0;font-size:clamp(25px,5vw,36px)}
-.subtitle{text-align:center;color:#444;margin:8px 0 20px;font-size:18px}
-.scorebar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#fff0bd;padding:13px 16px;border-radius:14px;font-weight:bold;font-size:18px}
-.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0}
-.tab,.mainbtn,.choice{font-family:inherit;font-weight:bold;cursor:pointer;border-radius:13px;padding:12px 18px;font-size:17px}
-.tab{border:2px solid #b8a3e8;background:#f5f0ff;color:#222}
-.tab.active{background:#7554b5;color:#fff;border-color:#7554b5}
-.panel{border:2px solid #c9b8ef;border-radius:18px;padding:20px;text-align:center}
-.instruction{font-size:19px;font-weight:bold;color:#245f87;margin:3px 0 18px}
-.coin-stage{min-height:190px;display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap;padding:10px}
-.coin-art{display:inline-block;background-image:url("coins.jpg");background-repeat:no-repeat;background-size:605px 537px;background-color:#fff;flex:none}
-.coin-art.large{transform:scale(1.18);margin:12px}
-.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:15px auto;max-width:620px}
-.choice{border:2px solid #9bcff0;background:#eaf7ff;color:#000;min-height:58px}
-.choice:hover:not(:disabled){background:#d6efff;transform:translateY(-2px)}
-.choice.correct{background:#d9f6e4;border-color:#31a968;color:#000}
-.choice.wrong{background:#ffe0e0;border-color:#dc6262;color:#000}
-.choice:disabled{opacity:1;cursor:default}
-.feedback{min-height:35px;font-weight:bold;font-size:18px;margin:12px 0;color:#222}
-.mainbtn{border:0;background:#45bd83;color:white;margin:5px}
-.mainbtn.secondary{background:#ffce72;color:#342500}
-.mainbtn:disabled{opacity:.5;cursor:default}
-.progress{height:12px;background:#eee;border-radius:20px;overflow:hidden;margin:14px 0}
-.progress span{display:block;height:100%;width:0;background:#45bd83;transition:width .25s}
-.smallnote{font-size:14px;color:#555;margin-top:15px}
-.coin-pair{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap}
-.compare-card{border:2px solid #e1d7f5;background:#faf8ff;border-radius:15px;padding:12px;min-width:130px}
-.compare-card .coin-art{margin:8px auto}
-.compare-card .choice{width:100%;margin-top:8px}
-.result{display:none;background:#e0f8e9;border-radius:16px;padding:20px;margin-top:18px}
+body{margin:0;padding:16px;background:linear-gradient(135deg,#eaf6ff,#fff0f6);font-family:"Comic Sans MS",Arial,sans-serif;color:var(--ink)}
+.game{max-width:980px;margin:0 auto;background:#fff;padding:22px;border-radius:22px;box-shadow:0 6px 24px #00000016}
+h1{text-align:center;color:#a64e83;font-size:clamp(26px,5vw,38px);margin:4px 0}
+.subtitle{text-align:center;font-size:18px;margin:6px 0 20px;color:#333}
+.scorebar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#fff2c8;border-radius:14px;padding:13px 16px;font-weight:bold;font-size:17px}
+.tabs{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:20px 0}
+.tab,.btn,.answer{font:inherit;font-weight:bold;cursor:pointer;border-radius:13px;padding:12px 17px}
+.tab{border:2px solid #c6b3ed;background:#f5f0ff;color:#111}
+.tab.active{background:var(--purple);border-color:var(--purple);color:white}
+.panel{border:2px solid #c6b3ed;border-radius:18px;padding:18px;text-align:center}
+.instruction{font-size:19px;font-weight:bold;color:#245e83;margin:4px 0 16px}
+.coin-stage{min-height:220px;display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;padding:8px}
+.coin-card{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:125px}
+.coin-image{width:145px;height:145px;object-fit:contain;display:block}
+.coin-image.small{width:112px;height:112px}
+.coin-caption{font-size:17px;font-weight:bold;color:#111}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;max-width:650px;margin:12px auto}
+.answer{min-height:58px;background:#eaf7ff;border:2px solid #9bd4f2;color:#000;font-size:18px}
+.answer:hover:not(:disabled){background:#d8efff;transform:translateY(-1px)}
+.answer.correct{background:#dff7e8;border-color:#35ad70;color:#000}
+.answer.wrong{background:#ffe1e1;border-color:#df6666;color:#000}
+.answer:disabled{opacity:1;cursor:default}
+.feedback{min-height:34px;margin:12px 0;font-size:18px;font-weight:bold;color:#222}
+.btn{border:0;background:#43bd83;color:white;margin:5px}
+.btn.gold{background:var(--gold);color:#332500}
+.btn:disabled{opacity:.5;cursor:default}
+.progress{height:11px;background:#eee;border-radius:20px;overflow:hidden;margin:12px 0}
+.progress span{display:block;height:100%;width:0;background:#43bd83;transition:width .2s}
+.order-list{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+.order-slot{width:130px;min-height:160px;border:2px dashed #b9a6df;border-radius:14px;background:#faf8ff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;gap:7px}
+.order-slot .coin-image{width:95px;height:95px}
+.order-slot .slot-number{font-weight:bold;color:#555}
+.order-pool{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:18px 0}
+.coin-pick{border:2px solid #a9d7ee;border-radius:14px;background:#eff9ff;padding:8px;cursor:pointer;min-width:112px;color:#111;font:inherit;font-weight:bold}
+.coin-pick .coin-image{width:85px;height:85px;margin:auto}
+.coin-pick.selected{outline:4px solid #f0b943;background:#fff5d8}
+.coin-pick:disabled{opacity:.45;cursor:default}
+.result{display:none;background:#e2f8e9;border-radius:16px;padding:18px;margin-top:18px;text-align:center}
 .result h2{color:#187b49}
-@media(max-width:520px){body{padding:8px}.game{padding:13px}.panel{padding:12px}.choices{gap:8px}.choice{font-size:16px;padding:10px 6px}.scorebar{font-size:15px}.coin-stage{min-height:150px}}
+@media(max-width:560px){body{padding:7px}.game{padding:12px}.panel{padding:10px}.coin-image{width:115px;height:115px}.coin-stage{min-height:170px}.answers{gap:8px}.answer{font-size:16px;padding:10px 6px}.order-slot{width:100px;min-height:130px}.order-slot .coin-image{width:75px;height:75px}.scorebar{font-size:15px}}
 </style>
 </head>
 <body>
-<div class="game">
-<h1>🪙 Mauritian Coins Adventure</h1>
-<p class="subtitle">Learn about the coins we use in Mauritius!</p>
+<main class="game">
+  <h1>🪙 Mauritian Coins Adventure</h1>
+  <p class="subtitle">Let’s learn to recognise our Mauritian coins!</p>
 
-<div class="scorebar">
-<span>⭐ Score: <span id="score">0</span></span>
-<span>Question: <span id="questionNo">0</span>/<span id="total">7</span></span>
-</div>
+  <div class="scorebar">
+    <span>⭐ Score: <span id="score">0</span></span>
+    <span>Question: <span id="question">1</span>/<span id="total">5</span></span>
+  </div>
 
-<div class="tabs">
-<button class="tab active" id="identifyTab">1. Name the coin</button>
-<button class="tab" id="compareTab">2. Which is worth more?</button>
-</div>
+  <nav class="tabs" aria-label="Game activities">
+    <button class="tab active" id="identifyTab">1. Name the coin</button>
+    <button class="tab" id="findTab">2. Find the coin</button>
+    <button class="tab" id="orderTab">3. Order the coins</button>
+  </nav>
 
-<div class="panel">
-<div class="instruction" id="instruction">Look carefully at the coin. Choose its value.</div>
-<div class="coin-stage" id="coinStage"></div>
-<div class="choices" id="choices"></div>
-<div class="feedback" id="feedback" aria-live="polite">Choose the correct answer!</div>
-<div class="progress"><span id="progressFill"></span></div>
-<button class="mainbtn" id="nextBtn" disabled>Next question →</button>
-<button class="mainbtn secondary" id="restartBtn">Start again</button>
-</div>
+  <section class="panel">
+    <div class="instruction" id="instruction">Look at the coin. Choose its name.</div>
+    <div class="coin-stage" id="stage"></div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback" aria-live="polite">You can do it!</div>
+    <div class="progress"><span id="progressFill"></span></div>
+    <button class="btn" id="next" disabled>Next →</button>
+    <button class="btn gold" id="restart">Start again</button>
+  </section>
 
-<div class="result" id="result">
-<h2>🎉 Well done!</h2>
-<p id="resultText"></p>
-<button class="mainbtn" id="againBtn">Play again</button>
-</div>
-
-<p class="smallnote">The coin pictures are taken from the original uploaded image and are not replaced with drawings or emojis.</p>
-</div>
+  <section class="result" id="result">
+    <h2>🎉 Excellent work!</h2>
+    <p id="resultText"></p>
+    <button class="btn" id="playAgain">Play again</button>
+  </section>
+</main>
 
 <script>
-const coins = [
- {id:"5c",label:"5 cents",short:"5c",x:420,y:18,w:125,h:110,value:5,unit:"cents"},
- {id:"20c",label:"20 cents",short:"20c",x:303,y:83,w:140,h:129,value:20,unit:"cents"},
- {id:"50c",label:"50 cents",short:"50c",x:164,y:144,w:159,h:157,value:50,unit:"cents"},
- {id:"1r",label:"1 rupee",short:"Rs 1",x:230,y:296,w:160,h:160,value:1,unit:"rupees"},
- {id:"5r",label:"5 rupees",short:"Rs 5",x:0,y:228,w:193,h:181,value:5,unit:"rupees"},
- {id:"10r",label:"10 rupees",short:"Rs 10",x:382,y:193,w:164,h:157,value:10,unit:"rupees"},
- {id:"20r",label:"20 rupees",short:"Rs 20",x:387,y:358,w:169,h:166,value:20,unit:"rupees"}
+const coins=[
+ {id:"1c",name:"1 cent",value:1,image:"coins/1-cent.jpg"},
+ {id:"5c",name:"5 cents",value:5,image:"coins/5-cents.webp"},
+ {id:"1r",name:"1 rupee",value:100,image:"coins/1-rupee.jpg"},
+ {id:"5r",name:"5 rupees",value:500,image:"coins/5-rupees.jpg"},
+ {id:"10r",name:"10 rupees",value:1000,image:"coins/10-rupees.jpg"}
 ];
+const $=id=>document.getElementById(id);
+let mode="identify",items=[],index=0,score=0,answered=false,orderChosen=[],orderDone=[];
 
-const stage=document.getElementById("coinStage");
-const choices=document.getElementById("choices");
-const feedback=document.getElementById("feedback");
-const nextBtn=document.getElementById("nextBtn");
-const scoreEl=document.getElementById("score");
-const questionNo=document.getElementById("questionNo");
-const totalEl=document.getElementById("total");
-const progressFill=document.getElementById("progressFill");
-const result=document.getElementById("result");
-
-let mode="identify",questions=[],index=0,score=0,answered=false;
-
-function shuffle(a){
- const b=[...a];
- for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}
- return b;
+function shuffle(list){
+ const a=[...list];
+ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+ return a;
 }
-function coinPicture(coin,large=false){
- const el=document.createElement("span");
- el.className="coin-art"+(large?" large":"");
- el.style.width=coin.w+"px";
- el.style.height=coin.h+"px";
- el.style.backgroundPosition=(-coin.x)+"px "+(-coin.y)+"px";
- el.setAttribute("role","img");
- el.setAttribute("aria-label",coin.label+" coin");
- return el;
+function imageFor(coin,small=false){
+ const img=document.createElement("img");
+ img.className="coin-image"+(small?" small":"");
+ img.src=coin.image;img.alt=coin.name+" Mauritian coin";
+ return img;
+}
+function cardFor(coin,small=false){
+ const card=document.createElement("div");card.className="coin-card";
+ card.appendChild(imageFor(coin,small));
+ const label=document.createElement("div");label.className="coin-caption";label.textContent=coin.name;
+ card.appendChild(label);return card;
 }
 function startGame(newMode=mode){
- mode=newMode;index=0;score=0;answered=false;
- result.style.display="none";
- document.getElementById("identifyTab").classList.toggle("active",mode==="identify");
- document.getElementById("compareTab").classList.toggle("active",mode==="compare");
- if(mode==="identify"){
-   questions=shuffle(coins);
-   totalEl.textContent=questions.length;
+ mode=newMode;index=0;score=0;answered=false;orderChosen=[];orderDone=[];
+ $("result").style.display="none";
+ $("identifyTab").classList.toggle("active",mode==="identify");
+ $("findTab").classList.toggle("active",mode==="find");
+ $("orderTab").classList.toggle("active",mode==="order");
+ if(mode==="order"){
+   items=[{kind:"order"}];
+   $("total").textContent="1";
  }else{
-   questions=makeComparisons();
-   totalEl.textContent=questions.length;
+   items=shuffle(coins);
+   $("total").textContent=items.length;
  }
- scoreEl.textContent="0";
- showQuestion();
+ $("score").textContent="0";
+ render();
 }
-function makeComparisons(){
- const pairs=[
-  ["5c","20c"],["20c","50c"],["1r","5r"],["5r","10r"],["10r","20r"],["50c","1r"]
- ];
- return shuffle(pairs).slice(0,5).map(pair=>{
-   const a=coins.find(c=>c.id===pair[0]),b=coins.find(c=>c.id===pair[1]);
-   return {a,b,answer:a.value>b.value?a.id:b.id};
+function render(){
+ answered=false;$("next").disabled=true;$("answers").innerHTML="";$("stage").innerHTML="";
+ $("feedback").textContent=mode==="order"?"Put the coins in order from the smallest value to the greatest value.":"Choose the correct answer!";
+ $("feedback").style.color="#222";
+ $("question").textContent=mode==="order"?"1":index+1;
+ $("progressFill").style.width=(mode==="order"?0:index/items.length*100)+"%";
+ if(mode==="identify")renderIdentify();
+ if(mode==="find")renderFind();
+ if(mode==="order")renderOrder();
+}
+function renderIdentify(){
+ const coin=items[index];
+ $("instruction").textContent="What is the name of this coin?";
+ $("stage").appendChild(cardFor(coin));
+ const options=shuffle([coin,...shuffle(coins.filter(c=>c.id!==coin.id)).slice(0,3)]);
+ options.forEach(c=>addAnswer(c.name,()=>checkAnswer(c.id===coin.id)));
+}
+function renderFind(){
+ const target=items[index];
+ $("instruction").textContent="Find the "+target.name+" coin.";
+ const options=shuffle(coins);
+ options.forEach(c=>{
+  const b=document.createElement("button");b.className="answer";
+  b.appendChild(imageFor(c,true));
+  const label=document.createElement("div");label.textContent=c.name;b.appendChild(label);
+  b.addEventListener("click",()=>checkAnswer(c.id===target.id,b,options,target));
+  $("answers").appendChild(b);
  });
 }
-function showQuestion(){
- answered=false;nextBtn.disabled=true;choices.innerHTML="";stage.innerHTML="";
- feedback.textContent="Choose the correct answer!";
- feedback.style.color="#222";
- questionNo.textContent=index+1;
- progressFill.style.width=(index/questions.length*100)+"%";
-
- if(mode==="identify"){
-   const coin=questions[index];
-   document.getElementById("instruction").textContent="Look carefully at the coin. Choose its value.";
-   stage.appendChild(coinPicture(coin,true));
-   const distractors=shuffle(coins.filter(c=>c.id!==coin.id)).slice(0,3);
-   const options=shuffle([coin,...distractors]);
-   options.forEach(option=>{
-     const btn=document.createElement("button");
-     btn.className="choice";btn.textContent=option.label;
-     btn.addEventListener("click",()=>checkIdentify(btn,option,coin));
-     choices.appendChild(btn);
-   });
+function addAnswer(label,handler){
+ const b=document.createElement("button");b.className="answer";b.textContent=label;
+ b.addEventListener("click",()=>handler(b));$("answers").appendChild(b);
+}
+function checkAnswer(correct,clicked,options,target){
+ if(answered)return;answered=true;
+ const buttons=[...$("answers").querySelectorAll("button")];
+ buttons.forEach(b=>b.disabled=true);
+ if(correct){
+  score++;if(clicked)clicked.classList.add("correct");
+  $("feedback").textContent="Correct! Well done! ⭐";$("feedback").style.color="#16834c";
  }else{
-   const q=questions[index];
-   document.getElementById("instruction").textContent="Which coin is worth MORE?";
-   const pair=document.createElement("div");pair.className="coin-pair";
-   [q.a,q.b].forEach(c=>{
-     const card=document.createElement("div");card.className="compare-card";
-     card.appendChild(coinPicture(c));
-     const btn=document.createElement("button");btn.className="choice";btn.textContent="Choose this coin";
-     btn.addEventListener("click",()=>checkCompare(btn,c,q));
-     card.appendChild(btn);pair.appendChild(card);
-   });
-   stage.appendChild(pair);
+  if(clicked)clicked.classList.add("wrong");
+  const correctButton=buttons.find(b=>b.textContent.trim()===target?.name);
+  if(correctButton)correctButton.classList.add("correct");
+  $("feedback").textContent="Good try! Have another look and keep learning.";
+  $("feedback").style.color="#b33b3b";
  }
+ $("score").textContent=score;
+ $("progressFill").style.width=((index+1)/items.length*100)+"%";
+ $("next").disabled=false;
+ $("next").textContent=index===items.length-1?"See my score":"Next →";
 }
-function checkIdentify(btn,chosen,correct){
- if(answered)return;answered=true;
- const all=[...choices.querySelectorAll("button")];
- all.forEach(b=>{b.disabled=true;if(b.textContent===correct.label)b.classList.add("correct");});
- if(chosen.id===correct.id){score++;feedback.textContent="Correct! Well done!";feedback.style.color="#16834c";}
- else{btn.classList.add("wrong");feedback.textContent="Good try! The correct answer is "+correct.label+".";feedback.style.color="#b33b3b";}
- finishQuestion();
+function renderOrder(){
+ $("instruction").textContent="Put the coins in order: smallest value first, greatest value last.";
+ const slots=document.createElement("div");slots.className="order-list";
+ coins.forEach((c,i)=>{
+  const slot=document.createElement("div");slot.className="order-slot";slot.dataset.position=i;
+  const num=document.createElement("div");num.className="slot-number";num.textContent=(i+1)+".";
+  slot.appendChild(num);
+  const prompt=document.createElement("span");prompt.textContent="Choose a coin";prompt.className="coin-caption";
+  slot.appendChild(prompt);slots.appendChild(slot);
+ });
+ $("stage").appendChild(slots);
+ const pool=document.createElement("div");pool.className="order-pool";
+ shuffle(coins).forEach(c=>{
+  const b=document.createElement("button");b.className="coin-pick";b.dataset.id=c.id;
+  b.appendChild(imageFor(c,true));
+  const label=document.createElement("div");label.textContent=c.name;b.appendChild(label);
+  b.addEventListener("click",()=>chooseOrderCoin(c,b));
+  pool.appendChild(b);
+ });
+ $("answers").appendChild(pool);
+ const check=document.createElement("button");check.className="btn";check.textContent="Check order";
+ check.addEventListener("click",checkOrder);$("answers").appendChild(check);
 }
-function checkCompare(btn,chosen,q){
- if(answered)return;answered=true;
- const all=[...stage.querySelectorAll("button")];
- all.forEach(b=>b.disabled=true);
- if(chosen.id===q.answer){score++;btn.classList.add("correct");feedback.textContent="Correct! That coin is worth more!";feedback.style.color="#16834c";}
- else{
-   btn.classList.add("wrong");
-   const correctCoin=coins.find(c=>c.id===q.answer);
-   const correctCard=[...stage.querySelectorAll(".compare-card")].find(card =>
-     card.querySelector(".coin-art").getAttribute("aria-label")===correctCoin.label+" coin"
-   );
-   if(correctCard)correctCard.querySelector("button").classList.add("correct");
-   feedback.textContent="Good try! Look carefully at the coin values.";
-   feedback.style.color="#b33b3b";
- }
- finishQuestion();
+function chooseOrderCoin(coin,button){
+ if(orderChosen.some(c=>c.id===coin.id))return;
+ if(orderChosen.length>=5)return;
+ orderChosen.push(coin);
+ button.disabled=true;button.classList.add("selected");
+ const slot=$("stage").querySelectorAll(".order-slot")[orderChosen.length-1];
+ slot.innerHTML="";const num=document.createElement("div");num.className="slot-number";num.textContent=(orderChosen.length)+".";
+ slot.appendChild(num);slot.appendChild(imageFor(coin,true));
+ const label=document.createElement("div");label.className="coin-caption";label.textContent=coin.name;slot.appendChild(label);
+ $("feedback").textContent=orderChosen.length<5?"Good! Choose the next coin.":"All five coins are placed. Check your order!";
 }
-function finishQuestion(){
- scoreEl.textContent=score;
- progressFill.style.width=((index+1)/questions.length*100)+"%";
- nextBtn.disabled=false;
- nextBtn.textContent=index===questions.length-1?"See my score":"Next question →";
+function checkOrder(){
+ if(answered)return;
+ if(orderChosen.length!==5){$("feedback").textContent="Please place all five coins first.";return;}
+ answered=true;
+ const correct=orderChosen.every((c,i)=>c.id===coins[i].id);
+ if(correct){score=1;$("feedback").textContent="Fantastic! You ordered all the coins correctly!";$("feedback").style.color="#16834c";}
+ else{$("feedback").textContent="Good try! The correct order is 1 cent, 5 cents, 1 rupee, 5 rupees, 10 rupees."; $("feedback").style.color="#b33b3b";}
+ $("score").textContent=score;$("progressFill").style.width="100%";
+ $("next").disabled=false;$("next").textContent="See my score";
 }
 function nextQuestion(){
  if(!answered)return;
- if(index<questions.length-1){index++;showQuestion();}
+ if(index<items.length-1){index++;render();}
  else{
-  document.getElementById("resultText").textContent="You scored "+score+" out of "+questions.length+". "+(score===questions.length?"Amazing! You are a Mauritian Coins Champion!":"Great effort! Practise again and become a coin expert!");
-  result.style.display="block";
-  nextBtn.disabled=true;
-  nextBtn.textContent="Game completed";
+  $("resultText").textContent=mode==="order"?(score?"You earned 1 out of 1. Brilliant!":"You completed the coin-ordering challenge. Keep practising!"):"You scored "+score+" out of "+items.length+". "+(score===items.length?"You are a Mauritian Coins Champion!":"Great effort! Practise again and become a coin expert!");
+  $("result").style.display="block";$("next").disabled=true;$("next").textContent="Completed";
  }
 }
-document.getElementById("identifyTab").addEventListener("click",()=>startGame("identify"));
-document.getElementById("compareTab").addEventListener("click",()=>startGame("compare"));
-document.getElementById("restartBtn").addEventListener("click",()=>startGame(mode));
-document.getElementById("againBtn").addEventListener("click",()=>startGame(mode));
-nextBtn.addEventListener("click",nextQuestion);
+$("identifyTab").addEventListener("click",()=>startGame("identify"));
+$("findTab").addEventListener("click",()=>startGame("find"));
+$("orderTab").addEventListener("click",()=>startGame("order"));
+$("restart").addEventListener("click",()=>startGame(mode));
+$("playAgain").addEventListener("click",()=>startGame(mode));
+$("next").addEventListener("click",nextQuestion);
 startGame("identify");
 </script>
 </body>
